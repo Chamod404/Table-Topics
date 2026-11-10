@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beyond Words: Let's Talk Idioms! — Table Topics</title>
+<style>
+:root {
+  --site-primary: #173f35;
+  --site-on-primary: #ffffff;
+  --site-secondary: #d7ad62;
+  --site-on-secondary: #18231e;
+  --site-background: #f4f1e9;
+  --site-on-background: #1e2924;
+  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-font-heading: Georgia, "Times New Roman", serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--site-font-body); background: var(--site-background); color: var(--site-on-background); }
+.app { min-height: 100vh; width: 100%; background-color: var(--site-background); color: var(--site-on-background); padding: calc(36px * var(--site-spacing-scale)) 22px 48px; }
+.wrap { max-width: 900px; margin: 0 auto; }
+header { text-align: center; padding: 18px 0 30px; }
+.eyebrow { text-transform: uppercase; letter-spacing: .2em; font-size: 11px; font-weight: 800; color: #a47732; }
+h1 { font: 700 calc(42px * var(--site-heading-scale))/1.08 var(--site-font-heading); margin: 12px 0 10px; color: var(--site-primary); }
+.subtitle { margin: 0; color: #65716b; font-size: 15px; }
+.rule { height: 3px; width: 54px; background: var(--site-secondary); margin: 23px auto 0; border-radius: 9px; }
+.panel { background: light-dark(#ffffff, #202a26); color: light-dark(#1e2924, #f2f1e9); border: 1px solid light-dark(#e6e0d4, #3b4942); border-radius: calc(22px * var(--site-radius-scale)); padding: 26px; box-shadow: 0 12px 35px rgba(32, 42, 38, .07); }
+.instruction { text-align: center; font-size: 13px; color: light-dark(#738078, #b6c1ba); margin: 0 0 19px; }
+.buttons { display: grid; grid-template-columns: repeat(5, 1fr); gap: 11px; }
+.qbtn { min-height: 58px; border: 1px solid light-dark(#d9e0da, #45564d); background: light-dark(#f7f8f5, #293630); color: light-dark(#234337, #e9f0eb); border-radius: 13px; font: 700 17px var(--site-font-body); cursor: pointer; transition: transform .15s, background .15s, color .15s, box-shadow .15s; }
+.qbtn:hover { transform: translateY(-2px); border-color: var(--site-primary); }
+/* Once clicked: dark blue, stays until the page is refreshed */
+.qbtn.used { background: #1f3a8a; color: #ffffff; border-color: #1f3a8a; }
+.qbtn.used:hover { border-color: #d7ad62; }
+/* The question currently on screen gets a gold ring */
+.qbtn.active { box-shadow: 0 0 0 3px #d7ad62; }
+.answer { margin-top: 23px; min-height: 230px; border-radius: 17px; padding: 27px; background: light-dark(#f4f1e9, #18221e); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.number { font-size: 11px; letter-spacing: .17em; text-transform: uppercase; font-weight: 800; color: #a47732; margin-bottom: 14px; }
+.idiom { font: 700 clamp(30px, 6vw, 46px)/1.15 var(--site-font-heading); max-width: 720px; color: light-dark(#173f35, #f4f1e9); }
+.meaning { margin-top: 8px; font: italic 400 clamp(16px, 2.6vw, 20px)/1.4 var(--site-font-body); max-width: 640px; color: light-dark(#65716b, #aab6ae); }
+.divider { width: 44px; height: 2px; background: #d7ad62; border-radius: 9px; margin: 20px auto; }
+.question { font: 600 clamp(18px, 3vw, 24px)/1.45 var(--site-font-body); max-width: 680px; color: light-dark(#1f3a8a, #e8c77f); }
+.placeholder { color: light-dark(#87928b, #aab6ae); font-size: 16px; }
+.actions { display: flex; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+.action { border: 0; border-radius: 999px; padding: 12px 20px; background: var(--site-primary); color: var(--site-on-primary); font-weight: 700; cursor: pointer; font-size: 13px; }
+.action.secondary { background: transparent; color: light-dark(#345346, #dbe5de); border: 1px solid light-dark(#cbd5cd, #526158); }
+footer { text-align: center; margin-top: 24px; color: #89938c; font-size: 11px; letter-spacing: .04em; }
+@media (max-width: 560px) {
+ .app { padding: 24px 14px 36px; }
+ h1 { font-size: calc(34px * var(--site-heading-scale)); }
+ .panel { padding: 17px; }
+ .buttons { grid-template-columns: repeat(5, 1fr); gap: 7px; }
+ .qbtn { min-height: 49px; font-size: 15px; border-radius: 10px; }
+ .answer { padding: 22px 16px; min-height: 200px; }
+}
+</style>
+</head>
+<body>
+<main class="app">
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">Toastmasters · Table Topics</div>
+      <h1>Beyond Words: Let's Talk Idioms!</h1>
+      <div class="rule"></div>
+    </header>
+    <section class="panel" aria-label="Question picker">
+      <p class="instruction">Choose a number to reveal a question</p>
+      <div class="buttons" id="buttons"></div>
+      <div class="answer" aria-live="polite">
+        <div class="placeholder" id="placeholder">Your next question is just one click away…</div>
+        <div class="number" id="number" hidden></div>
+        <div class="idiom" id="idiom"></div>
+        <div class="meaning" id="meaning"></div>
+        <div class="divider" id="divider" hidden></div>
+        <div class="question" id="question"></div>
+      </div>
+      <div class="actions">
+        <button class="action" id="random">Surprise me ↗</button>
+        <button class="action secondary" id="next">Next question →</button>
+      </div>
+    </section>
+    <footer>THINK FAST · SPEAK FROM THE HEART · HAVE FUN</footer>
+  </div>
+</main>
+<script>
+const questions = [
+  { idiom: "Bite your tongue", meaning: "Stop yourself from saying something.", question: "When did you last have to bite your tongue?" },
+  { idiom: "Spill the beans", meaning: "Reveal a secret.", question: "Have you ever accidentally spilled the beans? What happened?" },
+  { idiom: "Piece of cake", meaning: "Something very easy to do.", question: "What was a piece of cake for you but hard for others?" },
+  { idiom: "Barking up the wrong tree", meaning: "Blame the wrong person.", question: "Have you ever barked up the wrong tree? What happened?" },
+  { idiom: "A blessing in disguise", meaning: "Something bad that turns out well.", question: "What seemed like a bad experience but was a blessing in disguise?" },
+  { idiom: "Once in a blue moon", meaning: "Something that happens rarely.", question: "What do you do once in a blue moon but wish you did more?" },
+  { idiom: "Walking on eggshells", meaning: "Being very careful not to upset someone.", question: "Have you ever had to walk on eggshells around someone? Why?" },
+  { idiom: "The elephant in the room", meaning: "An obvious issue nobody discusses.", question: "What's the elephant in the room at work that nobody mentions?" },
+  { idiom: "Hit the nail on the head", meaning: "Say something exactly right.", question: "What advice hit the nail on the head for you?" },
+  { idiom: "Cost an arm and a leg", meaning: "Be extremely expensive.", question: "What's something that cost you an arm and a leg? Worth it?" }
+];
+const buttons = document.getElementById("buttons");
+const number = document.getElementById("number");
+const idiom = document.getElementById("idiom");
+const meaning = document.getElementById("meaning");
+const divider = document.getElementById("divider");
+const question = document.getElementById("question");
+const placeholder = document.getElementById("placeholder");
+let current = -1;
+questions.forEach((_, i) => {
+  const btn = document.createElement("button");
+  btn.className = "qbtn";
+  btn.textContent = String(i + 1);
+  btn.setAttribute("aria-label", "Show question " + (i + 1));
+  btn.setAttribute("aria-pressed", "false");
+  btn.addEventListener("click", () => showQuestion(i));
+  buttons.appendChild(btn);
+});
+function showQuestion(i) {
+  current = i;
+  const q = questions[i];
+  placeholder.hidden = true;
+  number.hidden = false;
+  divider.hidden = false;
+  number.textContent = "Question " + (i + 1);
+  idiom.textContent = q.idiom;
+  meaning.textContent = "(" + q.meaning + ")";
+  question.textContent = q.question;
+  [...buttons.children].forEach((btn, index) => {
+    btn.classList.toggle("active", index === i);
+    if (index === i) btn.classList.add("used"); // stays dark blue until page refresh
+    btn.setAttribute("aria-pressed", index === i ? "true" : "false");
+  });
+  // Once every question has been shown, the Surprise me button is done
+  const allUsed = [...buttons.children].every(btn => btn.classList.contains("used"));
+  const rb = document.getElementById("random");
+  rb.disabled = allUsed;
+  rb.style.opacity = allUsed ? ".45" : "";
+  rb.style.cursor = allUsed ? "not-allowed" : "";
+  rb.textContent = allUsed ? "All questions used" : "Surprise me ↗";
+}
+const randomBtn = document.getElementById("random");
+randomBtn.addEventListener("click", () => {
+  // Only pick from questions that haven't been shown yet
+  const unused = [...buttons.children]
+    .map((btn, index) => (btn.classList.contains("used") ? -1 : index))
+    .filter(index => index !== -1);
+  if (unused.length === 0) return;
+  showQuestion(unused[Math.floor(Math.random() * unused.length)]);
+});
+document.getElementById("next").addEventListener("click", () => showQuestion((current + 1) % questions.length));
+</script>
+</body>
+</html>
